@@ -234,3 +234,17 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DELIMITER //
+CREATE PROCEDURE add_guest_simple(
+    IN p_name VARCHAR(20),
+    IN p_phone VARCHAR(20),
+    IN p_is_regular TINYINT
+)
+BEGIN
+    INSERT INTO guests (name, phone, is_regular)
+    VALUES (p_name, p_phone, p_is_regular);
+
+    SELECT LAST_INSERT_ID() AS new_guest_id;
+END //
+DELIMITER ;
