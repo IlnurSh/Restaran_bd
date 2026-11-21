@@ -212,5 +212,23 @@ WHERE id IN (
     )
 );
 
+DELIMITER //
+CREATE PROCEDURE calculate_reserv_stats()
+BEGIN
+    DECLARE avg_persons DECIMAL(10,2);
+    DECLARE sum_persons INT;
+    DECLARE min_persons INT;
+    DECLARE max_persons INT;
 
+    SELECT AVG(persons), SUM(persons), MIN(persons), MAX(persons)
+    INTO avg_persons, sum_persons, min_persons, max_persons
+    FROM reserv;
+ 
+    INSERT INTO stats_log (metric_name, metric_value, calculated_at) VALUES
+        ('avg_persons', avg_persons, NOW()),
+        ('sum_persons', sum_persons, NOW()),
+        ('min_persons', min_persons, NOW()),
+        ('max_persons', max_persons, NOW());
+END //
+DELIMITER ;
 
