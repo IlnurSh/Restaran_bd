@@ -264,3 +264,16 @@ BEGIN
     SELECT CONCAT('гость добавлен, id = ', LAST_INSERT_ID()) AS result;
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE FUNCTION total_capacity_by_location(p_location VARCHAR(100))
+RETURNS INT
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE total INT;
+    SELECT SUM(capacity) INTO total FROM tables WHERE location = p_location;
+    RETURN total;
+END //
+DELIMITER ;
+
