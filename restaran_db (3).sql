@@ -199,4 +199,18 @@ JOIN Guests ON Guests.id = Reserv.guest_id
 ORDER BY Reserv.res_date;
 
 
+SELECT name AS Имя_гостя, phone AS Телефон
+FROM guests
+WHERE id IN (
+    SELECT guest_id 
+    FROM reserv 
+    JOIN tables ON reserv.table_id = tables.id
+    WHERE tables.capacity > ALL (
+        SELECT capacity 
+        FROM tables 
+        WHERE location = 'у сцены'
+    )
+);
+
+
 
