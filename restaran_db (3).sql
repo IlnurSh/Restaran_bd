@@ -184,5 +184,19 @@ SELECT
     COUNT(*) AS Всего_броней
 FROM reserv;
 
+SELECT 
+    Guests.name AS Имя_гостя,
+    Reserv.res_date AS Дата_визита,
+    Reserv.statuss AS Статус,
+    CASE 
+        WHEN Reserv.statuss IN ('Пришёл', 'Гость в зале') THEN 'Обслуживается'
+        WHEN Reserv.statuss = 'Подтверждена' THEN 'Ожидается'
+        WHEN Reserv.statuss = 'Отменена' THEN 'Отменено'
+        ELSE 'Неизвестно'
+    END AS Состояние
+FROM Reserv
+JOIN Guests ON Guests.id = Reserv.guest_id
+ORDER BY Reserv.res_date;
+
 
 
