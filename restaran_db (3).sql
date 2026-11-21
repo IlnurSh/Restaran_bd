@@ -236,15 +236,31 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE add_guest_simple(
+CREATE PROCEDURE add_guest_checked(
     IN p_name VARCHAR(20),
     IN p_phone VARCHAR(20),
     IN p_is_regular TINYINT
 )
 BEGIN
+    DECLARE v_phone_exists INT;
+
+    IF p_name IS NULL OR p_name = '' THEN
+        SELECT 'Ошибка: имя не может быть пустым' AS result;
+        LEAVE add_guest_checked;
+    END IF;
+
+    SELECT COUNT(*) INTO v_phone_exists
+    FROM guests
+    WHERE phone = p_phone;
+
+    IF v_phone_exists > 0 THEN
+        SELECT 'Ошибка: гость с таким телефоном уже существует' AS result;
+        LEAVE add_guest_checked;
+    END IF;
+
     INSERT INTO guests (name, phone, is_regular)
     VALUES (p_name, p_phone, p_is_regular);
 
-    SELECT LAST_INSERT_ID() AS new_guest_id;
+    SELECT CONCAT('гость добавлен, id = ', LAST_INSERT_ID()) AS result;
 END //
 DELIMITER ;
