@@ -167,3 +167,22 @@ JOIN Reserv ON Guests.id = Reserv.guest_id
 GROUP BY Guests.id, Guests.name
 HAVING COUNT(Reserv.id) > 1
 ORDER BY Количество_броней DESC;
+
+SELECT 
+    SUM(persons) AS Всего_гостей,
+    AVG(persons) AS Среднее_гостей,
+    MAX(persons) AS Максимум_гостей,
+    MIN(persons) AS Минимум_гостей,
+    COUNT(*) AS Всего_броней
+FROM reserv;
+
+SELECT 
+    SUM(persons) AS Всего_гостей,
+    AVG(persons) AS Среднее_гостей,
+    MAX(persons) AS Максимум_гостей,
+    MIN(persons) AS Минимум_гостей,
+    COUNT(*) AS Всего_броней
+FROM reserv;
+
+
+
